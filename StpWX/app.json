@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/ai_device/ai_device",
+    "pages/bt_search/bt_search",
+    "pages/bt_device/bt_device"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f8f8f8",
+    "navigationBarTitleText": "AIE小程序demo",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f8f8"
+  },
+  "sitemapLocation": "sitemap.json"
+}

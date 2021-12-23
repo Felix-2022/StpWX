@@ -1,0 +1,81 @@
+<!--pages/ai_device/ai_device.wxml-->
+<view  class="ai_device_container" >
+<view class="weui-form__text-area">
+<view class="weui-cells weui-cells_form">
+    <view class="weui-cell">
+      <view class="weui-cell__hd"><label class="weui-label">修改设备名称：</label></view>
+      <view class="weui-cell__bd">
+          <input class="weui-input" value="{{deviceInfo.name}}" bindinput="bindPasswordInput" type="text"  placeholder="在此输入设备名称" value="{{deviceInfo.name}}" />
+      </view>
+      <button   type="primary" style="margin-left: 30rpx;" size="mini" bindtap="changeDeviceName" >保存</button>
+
+    </view>
+  </view>  
+</view>
+
+<scroll-view scroll-y style="max-height: 50%;"  >
+    <block wx:for="{{devicesList}}" wx:key="mcid" >
+      <view style="display: flex;flex-direction: row;" class="device-item-bg{{index==selectedIndex?'-select':''}}"  bindtap="changeDevice" data-index="{{index}}" >
+          <view   class="list-item" id="{{item.mcid}}" >
+            <view class="device-item-bg"  >
+              <text style="font-size:medium;word-break:break-all">SN: {{item.mcid}}</text>
+              <text class=".device-item-text">设备名称: {{item.name}}</text>
+              <text class=".device-item-text">在线: {{item.online}}</text>
+              <text class=".device-item-text">音量: {{item.volume}}%</text>
+              <text class=".device-item-text">wifi名称: {{item.wifissid}}</text>
+              <text class=".device-item-text">电量: {{item.battery}}%</text>
+            </view>
+          </view>
+ 
+        </view>
+    </block>
+  </scroll-view>
+   <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <text>基础能力</text>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+      <button type="primary" size="mini" bindtap="getDeviceDetail">设备详情</button>
+      <button type="primary" size="mini" bindtap="getDeviceHardwareInfo">获取硬件信息</button>
+      <button type="primary" size="mini" bindtap="volumeUp">音量+</button>
+      <button type="primary" size="mini" bindtap="volumeDown">音量-</button>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <button type="primary" size="mini" bindtap="unbind">解绑该设备</button>
+      <button type="primary" size="mini" bindtap="uploadLog">上传日志</button>
+
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <text>绘本/点读包管理</text>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+      <button type="primary" size="mini" bindtap="getAllBookList">全部绘本</button>
+      <button type="primary" size="mini" bindtap="searchBook">搜索绘本</button>
+      <button type="primary" size="mini" bindtap="getDeviceBookList">设备内绘本</button>
+      <button type="primary" size="mini" bindtap="getBookDetail">绘本详情</button>
+  </view>
+ 
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+      <button type="primary" size="mini" bindtap="downloadBook">下载资源</button>
+      <button type="primary" size="mini" bindtap="deleteDeviceBook">删除资源</button>
+    <button type="primary" size="mini" bindtap="deleteDeviceBookArray">批量删除</button>
+    <button type="primary" size="mini" bindtap="getDeviceStorage">存储卡空间</button>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;align-items: flex-start;width: 100%;">
+      <button type="primary" size="mini" bindtap="getAllReadingPackage">全部点读包</button>
+      <button type="primary" size="mini" bindtap="getDeviceReadingPackage">设备内资源</button>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <text>学习内容</text>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <button type="primary" size="mini" bindtap="getReadBookList">阅读绘本报告(分页)</button>
+    <button type="primary" size="mini" bindtap="getReadBookListByDate">阅读绘本报告(时间)</button>
+  </view>
+  <view style="display: flex;flex-direction: row; margin-top: 15rpx;  width: 100%;">
+    <button type="primary" size="mini" bindtap="getReportList">学习报告（分页）</button>
+    <button type="primary" size="mini" bindtap="getReportListByDate">学习报告（时间）</button>
+    <button type="primary" size="mini" bindtap="getReportTrend">趋势报告</button>
+  </view>
+  <button type="primary" style="position: fixed; bottom: 140rpx;left: 20rpx;right: 20rpx;" bindtap="bindDevice">点读笔配网</button>
+  <button type="primary" style="position: fixed; bottom: 40rpx;left: 20rpx;right: 20rpx;" bindtap="logout">登出</button>
+</view>

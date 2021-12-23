@@ -1,0 +1,29 @@
+<!--pages/login/login.wxml-->
+
+<view class="weui-form">
+  <view class="weui-form__text-area">
+        <view class="weui-form__title">登录</view>
+  </view>
+
+  <!-- <view class="weui-form__control-area">
+        <view class="weui-cells__group weui-cells__group_form">
+             <view class="weui-cells weui-cells_form">
+              <view class="weui-cell">
+                <view class="weui-cell__hd"><label class="weui-label">手机号：</label></view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" value="{{password}}"  type="text"  placeholder="在此输入手机号"  value="13552966915"/>
+                </view>
+              </view>
+              <view class="weui-cell">
+                <view class="weui-cell__hd"><label class="weui-label">密码：</label></view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input"  type="safe-password"  placeholder="输入密码"   />
+                </view>
+              </view>
+            </view>
+        </view>
+  </view> -->
+  <view class="weui-form__opr-area" style="margin-left: 50rpx;margin-right: 50rpx;margin-top:200rpx ;">
+        <button bindtap="login" type="primary">登录</button>
+  </view>
+</view>

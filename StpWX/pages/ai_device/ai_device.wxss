@@ -1,0 +1,20 @@
+/* pages/ai_device/ai_device.wxss */
+.ai_device_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+    box-sizing: border-box;
+} 
+.device-item-bg{
+  display:flex;flex-direction:column;
+}
+.device-item-bg-select{
+  display:flex;flex-direction:column;background-color:lightcyan
+}
+.device-item-text{
+  font-size:x-small;color:gray;word-break:break-all
+}
+

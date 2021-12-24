@@ -1,5 +1,5 @@
 // pages/login/login.js
-var stp = require("../../utils/stp")
+var stp = require("../../utils/stp.101")
 var log = require('../../log.js')
 const app = getApp()
 Page({
@@ -24,10 +24,9 @@ Page({
 
   login:function(){
     let that = this
-    stp.loginEx(that.data.thirdId,that.data.thirdCode,function(data){
-   // stp.login(that.data.phone,that.data.password,function(data){
+    // stp.loginEx(that.data.thirdId,that.data.thirdCode,function(data){
+   stp.login(that.data.phone,that.data.password,function(data){
         log.info("succ:"+ JSON.stringify(data) +",deviceCount:"+data.mcids.length)
-       
         if(data.mcids.length == 0){
           wx.redirectTo({
             url: '../bt_search/bt_search',
@@ -41,10 +40,22 @@ Page({
         }
      }, function(e){
       log.info("fail errCode:"+e.errCode+",errMsg:"+e.errMsg)
-      wx.showToast({
-        title: '登录失败',
-        icon:'error'
-      })
+      if(e.errCode == -111){
+        wx.showToast({
+          title: '密码错误',
+          icon:'error'
+        })
+      }else if(e.errCode == -110){
+        wx.showToast({
+          title: '账号未注册',
+          icon:'error'
+        })
+      } else {
+        wx.showToast({
+          title: '登录失败',
+          icon:'error'
+        })
+      }
     })
   },
 
@@ -54,7 +65,7 @@ Page({
       password:"7d5546c516031e7802f13c8ecc403134"
     })
 
-    stp.init("aie.app")
+    stp.init("aie.app",true)
     let curMcid = stp.getCurrentMcid()
     log.info("curMcid:"+curMcid)
     if(curMcid != ''){

@@ -13,7 +13,7 @@
   </view>  
 </view>
 
-<scroll-view scroll-y style="max-height: 50%;"  >
+<scroll-view scroll-y style="max-height: 350rpx"    >
     <block wx:for="{{devicesList}}" wx:key="mcid" >
       <view style="display: flex;flex-direction: row;" class="device-item-bg{{index==selectedIndex?'-select':''}}"  bindtap="changeDevice" data-index="{{index}}" >
           <view   class="list-item" id="{{item.mcid}}" >

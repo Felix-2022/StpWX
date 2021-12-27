@@ -1,5 +1,5 @@
 // pages/login/login.js
-var stp = require("../../utils/stp.101")
+var stp = require("../../utils/stp.102")
 var log = require('../../log.js')
 const app = getApp()
 Page({

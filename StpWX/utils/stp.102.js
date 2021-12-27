@@ -59,7 +59,7 @@ function login(phone,password,succ, error){
 }
  
 function loginEx(thirdId,thirdCode,succ, error){
-  sendRequest(self.data.host+"robot/users/login",{"action":"login","data":{"thirdCode":thirdCode,"phonenum":thirdId,"tm":"\""+new Date().getTime()+"\"","app_package_id":self.data.packageId,"production":self.data.production}},function(data){
+  sendRequest(self.data.host+"robot/users/login",{"action":"login","data":{"thirdCode":thirdCode,"phonenum":thirdId,"passwd":"","tm":"\""+new Date().getTime()+"\"","app_package_id":self.data.packageId,"production":self.data.production}},function(data){
     self.data.token = data.token
     self.data.userid = data.userid
     self.data.mcids = data.mcids

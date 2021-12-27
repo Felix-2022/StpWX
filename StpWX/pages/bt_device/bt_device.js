@@ -1,7 +1,7 @@
 var xBlufi = require("../../utils/blufi/xBlufi.js");
 var base64 = require('../../utils/blufi/crypto/lib/base64-js')
 var log = require('../../log.js')
-var stp = require("../../utils/stp.101");
+var stp = require("../../utils/stp.102");
 const { _isEmpty } = require("../../utils/blufi/util.js");
 
 function strToUint8(str){

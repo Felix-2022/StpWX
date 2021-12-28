@@ -229,6 +229,9 @@ function sendRequest(url, data, succ, error){
 function getCurrentMcid(){
   return self.data.mcid
 }
+function getStpUserId(){
+  return self.data.userid
+}
 
 function clearLoginData() {
   log.info('clearLoginData')
@@ -264,6 +267,7 @@ module.exports = {
  setDeviceInfo,
  getDeviceList,
  getCurrentMcid,
+ getStpUserId,
  getDeviceDetail,
  changeDeviceVolume,
  updateDeviceName,

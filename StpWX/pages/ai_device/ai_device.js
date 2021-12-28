@@ -1,5 +1,5 @@
 // pages/ai_device/ai_device.js
-var stp = require("../../utils/stp.102")
+var stp = require("../../utils/stp.103")
 var log = require('../../log.js')
 var that = this
 //音量档位

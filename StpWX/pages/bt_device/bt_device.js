@@ -1,7 +1,7 @@
 var xBlufi = require("../../utils/blufi/xBlufi.js");
 var base64 = require('../../utils/blufi/crypto/lib/base64-js')
 var log = require('../../log.js')
-var stp = require("../../utils/stp.102");
+var stp = require("../../utils/stp.103");
 const { _isEmpty } = require("../../utils/blufi/util.js");
 
 function strToUint8(str){
@@ -160,9 +160,9 @@ Page({
       title: '正在配网',
       mask: true
     })
-    const password = `v1#${this.data.password}#ae:49cb1518f2c5692154c251f0deaeac0f#${new Date().getTime()/1000}#`
+    const password = `v1#${this.data.password}#${stp.getStpUserId()}#${new Date().getTime()/1000}#`
     var ssid = String(base64.fromByteArray(strToUint8(this.data.ssid))) 
-    log.info('开始配网')
+    log.info('开始配网:'+password)
     xBlufi.notifySendRouterSsidAndPassword({
       ssid:ssid,
       password:password

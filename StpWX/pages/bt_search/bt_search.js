@@ -23,28 +23,7 @@ Page({
           });
         break;
 
-      case xBlufi.XBLUFI_TYPE.TYPE_CONNECTED:
-        log.info("连接回调：" + JSON.stringify(options))
-        if (options.result) {
-          wx.hideLoading()
-          wx.showToast({
-            title: '连接成功',
-            icon: 'none'
-          })
-          wx.redirectTo({
-            url: '../bt_device/bt_device?deviceId=' + options.data.deviceId + '&name=' + options.data.name,
-          });
-
-        } else {
-          wx.hideLoading()
-          wx.showModal({
-            title: '提示',
-            content: '蓝牙连接已断开',
-            showCancel: false
-          });
-        }
-        break;
-
+  
       case xBlufi.XBLUFI_TYPE.TYPE_GET_DEVICE_LISTS_START:
         if (!options.result) {
           log.info("蓝牙未开启 fail =》", options)
@@ -94,16 +73,12 @@ Page({
     })
     for (var i = 0; i < _this.data.devicesList.length; i++) {
       if (e.currentTarget.id === _this.data.devicesList[i].deviceId) {
-        let name = _this.data.devicesList[i].name
-        log.info('点击了，蓝牙准备连接的deviceId:' + e.currentTarget.id)
-        xBlufi.notifyConnectBle({
-          isStart: true,
-          deviceId: e.currentTarget.id,
-          name:name
+         let name = _this.data.devicesList[i].name
+   
+
+        wx.redirectTo({
+          url: '../bt_device/bt_device?deviceId=' + e.currentTarget.id + '&name=' +name,
         });
-        wx.showLoading({
-          title: '连接蓝牙设备中...',
-        })
       }
     }
   },

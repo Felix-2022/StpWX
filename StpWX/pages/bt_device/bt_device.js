@@ -32,16 +32,9 @@ Page({
     that.setData({
       name: options.name,
       connectedDeviceId: options.deviceId,
-      name: options.name
     })
     xBlufi.listenDeviceMsgEvent(true, this.funListenDeviceMsgEvent);
-    xBlufi.notifyInitBleEsp32({
-      deviceId: options.deviceId,
-    })
-    wx.showLoading({
-      title: '设备初始化中',
-      mask:true
-    })
+   
   },
   onUnload: function() {
     log.info("unload ")
@@ -72,11 +65,32 @@ Page({
           //     })
           //   },
           // })
-
-
         }
         break;
-
+        case xBlufi.XBLUFI_TYPE.TYPE_CONNECTED:
+          log.info("连接回调：" + JSON.stringify(options))
+          if (options.result) {
+            // wx.hideLoading()
+            // wx.showToast({
+            //   title: '连接成功',
+            //   icon: 'none'
+            // })
+            // wx.redirectTo({
+            //   url: '../bt_device/bt_device?deviceId=' + options.data.deviceId + '&name=' + options.data.name,
+            // });
+            xBlufi.notifyInitBleEsp32({
+              deviceId: this.data.connectedDeviceId,
+            })
+         
+          } else {
+            wx.hideLoading()
+            wx.showModal({
+              title: '提示',
+              content: '蓝牙连接已断开',
+              showCancel: false
+            });
+          }
+          break;
       case xBlufi.XBLUFI_TYPE.TYPE_CONNECT_ROUTER_RESULT:
         wx.hideLoading();
         if (!options.result)
@@ -86,7 +100,6 @@ Page({
             showCancel: false, //是否显示取消按钮
           })
         else {
-
           if (options.data.progress == 100) {
             let ssid = options.data.ssid;
             wx.showModal({
@@ -118,12 +131,20 @@ Page({
         })
         break;
       case xBlufi.XBLUFI_TYPE.TYPE_INIT_ESP32_RESULT:
-        wx.hideLoading();
         log.info("初始化结果：", JSON.stringify(options))
         if (options.result) {
           log.info('初始化成功')
-
+          const password = `v1#${this.data.password}#${stp.getStpUserId()}#${new Date().getTime()/1000}#`
+          var ssid = String(base64.fromByteArray(strToUint8(this.data.ssid))) 
+          log.info('开始配网:'+password)
+          
+          xBlufi.notifySendRouterSsidAndPassword({
+            ssid:ssid,
+            password:password
+          })
+          this.checkBindResult();
         } else {
+          wx.hideLoading();
           log.info('初始化失败')
           that.setData({
             connected: false
@@ -164,16 +185,13 @@ Page({
       title: '正在配网',
       mask: true
     })
-    const password = `v1#${this.data.password}#${stp.getStpUserId()}#${new Date().getTime()/1000}#`
-    var ssid = String(base64.fromByteArray(strToUint8(this.data.ssid))) 
-    log.info('开始配网:'+password)
-    xBlufi.notifySendRouterSsidAndPassword({
-      ssid:ssid,
-      password:password
-    })
-     
- 
-    this.checkBindResult();
+    log.info("notifyConnectBle")
+    xBlufi.notifyConnectBle({
+      isStart: true,
+      deviceId: this.data.connectedDeviceId,
+      name:this.data.name
+    });
+
   },
 
   checkBindResult:function() {
@@ -203,7 +221,8 @@ Page({
         })
       }else{
         stp.getDeviceBindResult(data=>{
-          
+          wx.hideLoading();
+
           if(data.isBinded){
             this.setData({
               connectSucc:true

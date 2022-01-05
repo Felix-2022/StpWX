@@ -1,5 +1,5 @@
 // pages/ai_device/ai_device.js
-var stp = require("../../utils/stp.103")
+var stp = require("../../utils/stp.104")
 var log = require('../../log.js')
 var that = this
 //音量档位
@@ -81,6 +81,7 @@ Page({
           devicesList:data.mcids,
           deviceInfo:data.mcids[0]
         })
+        stp.setDeviceInfo(data.mcids[0].mcid, data.mcids[0].appId)
         log.debug("bind device count:"+ this.data.devicesList.length)
       }else{
         this.setData({

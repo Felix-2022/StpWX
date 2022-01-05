@@ -1,12 +1,7 @@
 var mOnFire = require("other/onfire.js");
-var $wxBlufiImpl = require('xBlufi-wx-impl.js');
+var log = require('../../log.js')
 
-// 0表示阿里支付宝小程序 1表示微信小程序
-let XMQTT_SYSTEM = {
-  Alis: 0,
-  WeChat: 1,
-};
-
+ 
 
 let XBLUFI_TYPE = {
   TYPE_STATUS_CONNECTED: '-2', /// 设备连接状态回调
@@ -37,19 +32,6 @@ let OnFireEvent = {
   EVENT_NOFITY_SEND_CUSTON_DATA: '51', //通知发送自定义数据
 }
 
-/**
- * 初始化
- * @param type 参考 XMQTT_SYSTEM
- */
-function initXBlufi(type) {
-  switch (type) {
-    case XMQTT_SYSTEM.Alis:
-      break;
-    case XMQTT_SYSTEM.WeChat:
-      $wxBlufiImpl.init();
-      break;
-  }
-}
 
 
 function notifyDeviceMsgEvent(options) {
@@ -90,7 +72,7 @@ function listenStartDiscoverBle(isSetListener, funtion) {
  * @param options 连接参数 {"connect":true,"deviceID":"设备id，蓝牙发现列表获取"}
  */
 function notifyConnectBle(options) {
-  console.log('notifyConnectBle 蓝牙准备连接的deviceId --------------')
+  console.log('notifyConnectBle 蓝牙准备连接的deviceId --------------'+options.deviceId)
   mOnFire.fire(OnFireEvent.EVENT_CONNECT_DISCONNECT, options);
 }
 /**
@@ -173,7 +155,6 @@ function listenSendCustomData(isSetListener, funtion) {
 
 module.exports = {
 
-  XMQTT_SYSTEM,
   XBLUFI_TYPE,
   OnFireEvent,
 
@@ -194,8 +175,5 @@ module.exports = {
 
   notifySendCustomData,
   listenSendCustomData,
-
-
-  initXBlufi,
 
 };

@@ -301,7 +301,6 @@ function writeDeviceEnd(deviceId, serviceId, characteristicId) {
 }
 
 function init() {
-
   let mOnFire = require("other/onfire.js");
   mDeviceEvent = require('xBlufi.js');
 

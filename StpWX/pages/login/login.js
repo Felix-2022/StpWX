@@ -1,5 +1,6 @@
 // pages/login/login.js
-var stp = require("../../utils/stp.103")
+var stp = require("../../utils/stp.104")
+var xBlufiInit = require("../../utils/blufi/xBlufi-init")
 var log = require('../../log.js')
 const app = getApp()
 Page({
@@ -8,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    xInit:false,
     phone:'',
     password:'',
     thirdId:'',//客户用户唯一标识
@@ -60,16 +62,22 @@ Page({
   },
 
   onLoad: function (options) {
-    this.setData({
-      phone:"13552966915",
-      password:"7d5546c516031e7802f13c8ecc403134"
-    })
+    
+    if(!this.data.init){
+      xBlufiInit.initXBlufi()
+      this.setData({
+        phone:"13552966915",
+        password:"7d5546c516031e7802f13c8ecc403134",
+        init:true
+      })
+    }
+    
 
     stp.init("aie.app",true)
     let curMcid = stp.getCurrentMcid()
     log.info("curMcid:"+curMcid)
     if(curMcid != ''){
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../ai_device/ai_device',
       })
     }

@@ -10,7 +10,6 @@ Page({
   },
   onLoad: function() {
     _this = this;
-    xBlufi.initXBlufi(1);
     log.info("xBlufi", xBlufi.XMQTT_SYSTEM)
     xBlufi.listenDeviceMsgEvent(true, this.funListenDeviceMsgEvent);
   },
@@ -32,7 +31,7 @@ Page({
             title: '连接成功',
             icon: 'none'
           })
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../bt_device/bt_device?deviceId=' + options.data.deviceId + '&name=' + options.data.name,
           });
 
@@ -77,6 +76,7 @@ Page({
     }
   },
   Search: function() {
+    log.info("Search this.data.searching:"+this.data.searching)
     if (this.data.searching) {
       xBlufi.notifyStartDiscoverBle({
         'isStart': false
@@ -99,7 +99,7 @@ Page({
         xBlufi.notifyConnectBle({
           isStart: true,
           deviceId: e.currentTarget.id,
-          name
+          name:name
         });
         wx.showLoading({
           title: '连接蓝牙设备中...',
@@ -107,6 +107,7 @@ Page({
       }
     }
   },
+
   onUnload: function() {
     xBlufi.listenDeviceMsgEvent(false, this.funListenDeviceMsgEvent);
   }

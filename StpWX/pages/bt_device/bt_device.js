@@ -1,7 +1,7 @@
 var xBlufi = require("../../utils/blufi/xBlufi.js");
 var base64 = require('../../utils/blufi/crypto/lib/base64-js')
 var log = require('../../log.js')
-var stp = require("../../utils/stp.103");
+var stp = require("../../utils/stp.104");
 const { _isEmpty } = require("../../utils/blufi/util.js");
 
 function strToUint8(str){
@@ -51,6 +51,7 @@ Page({
       deviceId: that.data.connectedDeviceId,
       name: that.data.name,
     });
+
     xBlufi.listenDeviceMsgEvent(false, this.funListenDeviceMsgEvent);
   },
   funListenDeviceMsgEvent: function(options) {
@@ -71,6 +72,8 @@ Page({
           //     })
           //   },
           // })
+
+
         }
         break;
 
@@ -140,6 +143,7 @@ Page({
     }
   },
   OnClickStart: function() {
+
     if (!this.data.ssid) {
       wx.showToast({
         title: 'SSID不能为空',
@@ -167,7 +171,8 @@ Page({
       ssid:ssid,
       password:password
     })
-
+     
+ 
     this.checkBindResult();
   },
 
@@ -181,6 +186,7 @@ Page({
         title: '配网失败',
         icon:'error'
       })
+      
     }else {
       if(this.data.connectSucc){
         log.info('配网成功')

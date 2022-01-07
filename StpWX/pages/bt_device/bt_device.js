@@ -15,7 +15,7 @@ Page({
     version: '2.0',
     name: '',
     connectedDeviceId: '',
-    connected: true,
+    connecting: false,
     deviceInfo: null,
     isInitOK: false,
     password: '',
@@ -51,10 +51,8 @@ Page({
     let that = this
     switch (options.type) {
       case xBlufi.XBLUFI_TYPE.TYPE_STATUS_CONNECTED:
-        that.setData({
-          connected: options.result
-        });
-        if (!options.result) {
+        log.info("BlueTooth device connected")
+          // if (!options.result) {
           // wx.showModal({
           //   title: '很抱歉提醒你！',
           //   content: '小程序与设备异常断开',
@@ -65,7 +63,7 @@ Page({
           //     })
           //   },
           // })
-        }
+        // }
         break;
         case xBlufi.XBLUFI_TYPE.TYPE_CONNECTED:
           log.info("连接回调：" + JSON.stringify(options))
@@ -142,13 +140,14 @@ Page({
             ssid:ssid,
             password:password
           })
+          this.setData({
+            connecting:true
+          })
           this.checkBindResult();
         } else {
           wx.hideLoading();
           log.info('初始化失败')
-          that.setData({
-            connected: false
-          })
+         
           wx.showModal({
             title: '温馨提示',
             content: `设备初始化失败`,
@@ -197,15 +196,19 @@ Page({
   checkBindResult:function() {
     var maxwait = 15//超时次数
     var newwait = this.data.waitTimes + 1//执行的次数
-    if (newwait >= maxwait && !this.data.connectSucc) {
+
+    if (newwait >= maxwait && !this.data.connectSucc && this.data.connecting) {
      //超时了
       log.info('配网超时')
       wx.showToast({
         title: '配网失败',
         icon:'error'
       })
-      
+      this.setData({
+        connecting:false
+      })
     }else {
+
       if(this.data.connectSucc){
         log.info('配网成功')
         this.setData({
@@ -216,14 +219,20 @@ Page({
           title: '配网成功',
           icon:'success'
         })
+        this.setData({
+          connecting:false
+        })
         wx.redirectTo({
           url: '../ai_device/ai_device',
         })
       }else{
+        if(!this.data.connecting){
+          log.info("connect wifi is over")
+          return;
+        }
         stp.getDeviceBindResult(data=>{
-          wx.hideLoading();
-
           if(data.isBinded){
+            wx.hideLoading();
             this.setData({
               connectSucc:true
             })
@@ -234,21 +243,29 @@ Page({
             })
             if(_isEmpty(data.bindtel)){
               wx.showToast({
-                title: '绑定失败'+'非该渠道点读笔',
+                title: '非该渠道点读笔',
                 icon:'error'
               })
               log.info('绑定失败,非该渠道点读笔')
             }else{
               wx.showToast({
-                title: '绑定失败,该设备已被'+data.bindtel+"绑定",
+                title: '他人已绑定',
                 icon:'error'
               })
               log.info('绑定失败,该设备已被'+data.bindtel+"绑定")
             }
+            setTimeout(()=>{
+              wx.redirectTo({
+                url: '../bt_search/bt_search',
+              })
+            },2000)
           }
-          return;
+  
+          this.setData({
+            connecting:false
+          })
         },e=>{
-            
+          log.info("getDeviceBindResult.error:"+JSON.stringify(e))
         })
         setTimeout(this.checkBindResult,2000)
         log.info('第'+newwait+'次轮询中...')

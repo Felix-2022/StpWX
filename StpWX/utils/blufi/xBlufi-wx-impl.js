@@ -11,6 +11,7 @@ let sequenceControl = 0;
 let sequenceNumber = -1;
 let talkyPenPrefix = "TalkyPen"
 
+
 let self = {
   data: {
     deviceId: null,
@@ -324,21 +325,27 @@ function init() {
       //第一步检查蓝牙适配器是否可用
       wx.onBluetoothAdapterStateChange(function(res) {
         if (!res.available) {
-
+            console.log("!res.available")
         }
       });
       //第二步关闭适配器，重新来搜索
       wx.closeBluetoothAdapter({
         complete: function(res) {
+          console.log("wx.closeBluetoothAdapter")
           wx.openBluetoothAdapter({
             success: function(res) {
+            console.log("wx.openBluetoothAdapter")
               wx.getBluetoothAdapterState({
                 success: function(res) {
+                 console.log("wx.getBluetoothAdapterState")
                   wx.stopBluetoothDevicesDiscovery({
                     success: function(res) {
+                        console.log("wx.stopBluetoothDevicesDiscovery")
                         let devicesList = [];
                         let countsTimes = 0;
                         wx.onBluetoothDeviceFound(function(devices) {
+                            // console.log("wx.onBluetoothDeviceFound"+JSON.stringify(devices))
+
                           //剔除重复设备，兼容不同设备API的不同返回值
                           var isnotexist = true;
                           if (devices.deviceId) {
@@ -405,6 +412,8 @@ function init() {
                         wx.startBluetoothDevicesDiscovery({
                           allowDuplicatesKey: true,
                           success: function(res) {
+                           console.log("wx.startBluetoothDevicesDiscovery.success")
+
                             let obj = {
                               'type': mDeviceEvent.XBLUFI_TYPE.TYPE_GET_DEVICE_LISTS_START,
                               'result': true,
@@ -421,6 +430,7 @@ function init() {
                               'result': false,
                               'data': res
                             }
+                            console.log("startBluetoothDevicesDiscovery.fail:"+JSON.stringify(res))
                             mDeviceEvent.notifyDeviceMsgEvent(obj);
                           }
                         });
@@ -441,6 +451,7 @@ function init() {
                     'result': false,
                     'data': res
                   }
+                  console.log("stopBluetoothDevicesDiscovery.fail:"+JSON.stringify(res))
                   mDeviceEvent.notifyDeviceMsgEvent(obj);
                 }
               });
@@ -451,6 +462,7 @@ function init() {
                 'result': false,
                 'data': res
               }
+              console.log("openBluetoothAdapter.fail:"+JSON.stringify(res))
               mDeviceEvent.notifyDeviceMsgEvent(obj);
             }
           });

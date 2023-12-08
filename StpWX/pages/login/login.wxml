@@ -1,4 +1,5 @@
 <!--pages/login/login.wxml-->
+<privacy-popup bind:agree="agree" bind:disagree="disagree"></privacy-popup>
 
 <view class="weui-form">
   <view class="weui-form__text-area">
@@ -26,4 +27,5 @@
   <view class="weui-form__opr-area" style="margin-left: 50rpx;margin-right: 50rpx;margin-top:200rpx ;">
         <button bindtap="login" type="primary">登录</button>
   </view>
+ 
 </view>

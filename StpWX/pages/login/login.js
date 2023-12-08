@@ -10,7 +10,7 @@ Page({
    */
   data: {
     xInit:false,
-    phone:'',
+     phone:'',
     password:'',
     thirdId:'',//客户用户唯一标识
     thirdCode:''//客户用户鉴权码
@@ -64,10 +64,13 @@ Page({
   onLoad: function (options) {
     
     if(!this.data.init){
+     console.log("before initXBlufi")
       xBlufiInit.initXBlufi()
+      console.log("after initXBlufi")
+
       this.setData({
         phone:"13552966915",
-        password:"7d5546c516031e7802f13c8ecc403134",
+        password:"fe2bbfc9608277ab624fedc677b8a21f",
         init:true
       })
     }
@@ -81,9 +84,42 @@ Page({
         url: '../ai_device/ai_device',
       })
     }
+    log.info("before onNeedPrivacyAuthorization")
+
+    wx.onNeedPrivacyAuthorization(resolve => {
+        // 需要用户同意隐私授权时
+        // 弹出开发者自定义的隐私授权弹窗
+        this.setData({
+          showPrivacy: true
+        })
+        this.resolvePrivacyAuthorization = resolve
+      })
+  
+      wx.requirePrivacyAuthorize({
+        success: () => {
+          // 用户同意授权
+          // 继续小程序逻辑
+        },
+        fail: () => {}, // 用户拒绝授权
+        complete: () => {}
+      })
+      log.info("after onNeedPrivacyAuthorization")
   },
-
-
+   
+  agree(e){
+    console.log("用户同意隐私授权, 接下来可以调用隐私协议中声明的隐私接口")
+    // wx.getClipboardData({
+    //   success(res) {
+    //     console.log("getClipboardData success", res)
+    //   },
+    //   fail(res) {
+    //     console.log("getClipboardData fail", res)
+    //   },
+    // })
+  },
+  disagree(e){
+    console.log("用户拒绝隐私授权, 未同意过的隐私协议中的接口将不能调用")
+  },
   onReady: function () {
 
   },

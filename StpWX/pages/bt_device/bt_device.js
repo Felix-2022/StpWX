@@ -52,30 +52,11 @@ Page({
     switch (options.type) {
       case xBlufi.XBLUFI_TYPE.TYPE_STATUS_CONNECTED:
         log.info("BlueTooth device connected")
-          // if (!options.result) {
-          // wx.showModal({
-          //   title: '很抱歉提醒你！',
-          //   content: '小程序与设备异常断开',
-          //   showCancel: false, //是否显示取消按钮
-          //   success: function(res) {
-          //     wx.navigateBack({
-          //       url: '../search/search'
-          //     })
-          //   },
-          // })
-        // }
+
         break;
         case xBlufi.XBLUFI_TYPE.TYPE_CONNECTED:
           log.info("连接回调：" + JSON.stringify(options))
           if (options.result) {
-            // wx.hideLoading()
-            // wx.showToast({
-            //   title: '连接成功',
-            //   icon: 'none'
-            // })
-            // wx.redirectTo({
-            //   url: '../bt_device/bt_device?deviceId=' + options.data.deviceId + '&name=' + options.data.name,
-            // });
             xBlufi.notifyInitBleEsp32({
               deviceId: this.data.connectedDeviceId,
             })

@@ -26,11 +26,18 @@ Page({
   
       case xBlufi.XBLUFI_TYPE.TYPE_GET_DEVICE_LISTS_START:
         if (!options.result) {
-          log.info("蓝牙未开启 fail =》", options)
-          wx.showToast({
-            title: '蓝牙未开启',
-            icon: 'none'
-          })
+          log.info("蓝牙未开启"+JSON.stringify(options.data))
+          if(options.data.errno == 1509008){
+            wx.showToast({
+                title: '未授权地理位置权限',
+                icon: 'none'
+            })
+          }else{
+            wx.showToast({
+                title: '蓝牙未开启',
+                icon: 'none'
+            })
+          }
         } else {
           //蓝牙搜索开始
           _this.setData({
